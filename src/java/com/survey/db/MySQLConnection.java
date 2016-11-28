@@ -24,4 +24,8 @@ public class MySQLConnection {
             return null;
         }
     }
+//    public static void main(String args[]){
+//        MySQLConnection con = new MySQLConnection();
+//        con.connect();
+//    }
 }

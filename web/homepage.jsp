@@ -7,7 +7,8 @@
 <%@page import="com.survey.controllers.LoginFilter"%>
 <%@page import="com.survey.models.User" %>
 <!DOCTYPE html>
-<%   
+<%
+    
 %>
 
 <html>
@@ -36,11 +37,13 @@
                                   <li>
                                     <a href="#"><img class="circular_image" src="img/logo.jpg"></a>
                                     <ul class="submenu">
-                                        <li><a href="profile.html">My Account</a></li>
+                                        <li><a href="profile.html">My Account (${user})</a></li>
                                         <li>
-                                            <form action="${pageContext.request.contextPath}/logout" method="post">
+                                            <a href="${pageContext.request.contextPath}/logout">Sign Out</a></li>
+
+<!--                                            <form action="${pageContext.request.contextPath}/logout" method="post">
                                             <input type="submit" value="Sign Out">
-                                            </form>
+                                            </form>-->
                                         </li>
                                     </ul>
                                   </li>

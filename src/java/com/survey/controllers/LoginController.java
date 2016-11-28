@@ -34,14 +34,14 @@ public class LoginController extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
         
-        String sql = "SELECT * FROM user WHERE username=? AND password=?";
+        String sql = "SELECT * FROM users WHERE username=? AND password=?";
         UserTable usertable = new UserTable();
         boolean b = usertable.login(user, sql);
         
         if(b){
-            request.setAttribute("user", user);
+            //request.setAttribute("user", user);
             HttpSession session =request.getSession();
-            session.setAttribute("user", user);
+            session.setAttribute("user", user.getUsername());
             RequestDispatcher dispatcher = request.getRequestDispatcher("homepage.jsp");
             dispatcher.forward(request, response);
             //response.sendRedirect("homepage.jsp");
@@ -56,9 +56,11 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession ses = request.getSession(false);
-        if(ses != null)
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
-        else
+        if(ses == null)
             request.getRequestDispatcher("login.jsp").forward(request, response);
+        else
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
     }
+    
+
 }

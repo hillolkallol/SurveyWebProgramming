@@ -23,7 +23,15 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().invalidate();
-        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        //request.removeAttribute("user");
+        response.sendRedirect(request.getContextPath() + "/index");
+    }
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().invalidate();
+        //request.removeAttribute("user");
+        response.sendRedirect(request.getContextPath() + "/index");
     }
 
 }

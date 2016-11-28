@@ -22,6 +22,7 @@
     </head>
 
     <body>
+        <%@ page session="false" %>
         <div class="login_page_body">
             <div class="sign_in_section">
                 <img class="logo" src="img/logo.png"><br><br>
