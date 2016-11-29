@@ -21,8 +21,8 @@ public class LoginFilter {
     public void isSession (HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {    
         HttpSession ses = request.getSession(false);
         if(ses != null)
-            request.getRequestDispatcher(page).forward(request, response);
+            response.sendRedirect(page);
         else
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login");
     }
 }

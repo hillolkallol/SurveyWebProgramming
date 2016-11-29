@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author KD
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/index"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -55,12 +55,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession ses = request.getSession(false);
-        if(ses == null)
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        else
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+        LoginFilter lf = new LoginFilter();
+        lf.isSession(request, response, "homepage.jsp");
     }
-    
-
 }

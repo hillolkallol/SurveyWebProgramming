@@ -7,6 +7,7 @@ package com.survey.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +18,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author KD
  */
-@WebServlet(name = "LogoutController", urlPatterns = {"/logout"})
-public class LogoutController extends HttpServlet {
-
+@WebServlet(name = "CreateSurveyController", urlPatterns = {"/create_survey"})
+public class CreateSurveyController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().invalidate();
-        //request.removeAttribute("user");
-        response.sendRedirect(request.getContextPath() + "/index");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        LoginFilter lf = new LoginFilter();
+        lf.isSession(request, response, "create_survey");
     }
-
 }

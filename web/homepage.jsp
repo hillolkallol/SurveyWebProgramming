@@ -8,7 +8,8 @@
 <%@page import="com.survey.models.User" %>
 <!DOCTYPE html>
 <%
-    
+//    LoginFilter lf = new LoginFilter();
+//    lf.isSession(request, response, "homepage.jsp");
 %>
 
 <html>
@@ -31,7 +32,7 @@
                             <td class="center_row"><input type="text" placeholder="Search..." name="search"><a href="search.html"><input type="submit" value="Search"></a></td>
                             <td class="right_row">
                                 <a class="customize_link" href="dashboard.html">Dashboard</a>
-                                <div class="tooltip"><a href="create_survey.html"><img class="circular_dashboard" src="img/plus.png"></a>
+                                <div class="tooltip"><a href="${pageContext.request.contextPath}/create_survey"><img class="circular_dashboard" src="img/plus.png"></a>
                                 <span class="tooltiptext">Create Survey</span></div>
                                 <ul class="menu cf">
                                   <li>
