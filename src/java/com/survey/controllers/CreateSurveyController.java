@@ -23,7 +23,6 @@ public class CreateSurveyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LoginFilter lf = new LoginFilter();
-        lf.isSession(request, response, "create_survey");
+        
     }
 }

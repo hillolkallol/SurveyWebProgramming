@@ -3,13 +3,9 @@
     Created on : Nov 23, 2016, 12:39:07 AM
     Author     : KD
 --%>
-
-<%@page import="com.survey.controllers.LoginFilter"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-
-%>
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% String error = (String) request.getAttribute("login_error_msg");  %> 
 <html lang="en">
     <head>
         <title>Polling</title>
@@ -28,9 +24,10 @@
             <div class="sign_in_section">
                 <img class="logo" src="img/logo.png"><br><br>
                 <h2>Sign In</h2><br>
-                <form method="post" action="index">
+                <form method="post" action="login_checking">
                     <label>Username: </label><input type="text" name="USERNAME" required><br>
-                    <label>Password: </label><input type="password" name="PASSWORD" required><br><br>
+                    <label>Password: </label><input type="password" name="PASSWORD" required><br>
+                    <label><%= error %></label><br><br>
                     <input type="submit" value="Sign In"><br>
                 </form>
                 

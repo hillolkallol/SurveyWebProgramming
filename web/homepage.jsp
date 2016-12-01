@@ -3,14 +3,19 @@
     Created on : Nov 23, 2016, 1:34:01 AM
     Author     : KD
 --%>
-
-<%@page import="com.survey.controllers.LoginFilter"%>
-<%@page import="com.survey.models.User" %>
 <!DOCTYPE html>
+<%@page import="com.survey.models.User" %>
 <%
 //    LoginFilter lf = new LoginFilter();
-//    lf.isSession(request, response, "homepage.jsp");
+//    lf.isSession(request, response, "homepage");
 %>
+
+<%
+    User u = new User();
+    HttpSession ses = request.getSession(false);
+    u = (User) ses.getAttribute("user");
+    String user = u.getUsername();
+    %>
 
 <html>
 
@@ -28,17 +33,17 @@
                 <div class="header_body">
                     <table class="header_table">
                         <tr>
-                            <td><a href="homepage.html"><img class="container_logo" src="img/logo.png" alt="logo"></a></td>
+                            <td><a href="homepage"><img class="container_logo" src="img/logo.png" alt="logo"></a></td>
                             <td class="center_row"><input type="text" placeholder="Search..." name="search"><a href="search.html"><input type="submit" value="Search"></a></td>
                             <td class="right_row">
-                                <a class="customize_link" href="dashboard.html">Dashboard</a>
+                                <a class="customize_link" href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
                                 <div class="tooltip"><a href="${pageContext.request.contextPath}/create_survey"><img class="circular_dashboard" src="img/plus.png"></a>
                                 <span class="tooltiptext">Create Survey</span></div>
                                 <ul class="menu cf">
                                   <li>
                                     <a href="#"><img class="circular_image" src="img/logo.jpg"></a>
                                     <ul class="submenu">
-                                        <li><a href="profile.html">My Account (${user})</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/profile">My Account (<%= user %>)</a></li>
                                         <li>
                                             <a href="${pageContext.request.contextPath}/logout">Sign Out</a></li>
 
