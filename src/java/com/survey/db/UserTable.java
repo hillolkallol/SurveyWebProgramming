@@ -6,12 +6,25 @@
 package com.survey.db;
 
 import com.survey.models.User;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.JOptionPane;
 
 /**
@@ -107,7 +120,92 @@ public class UserTable {
                 message = "New Information has been updated!";
             }
             else{
-                message = "There was some problem in updating!" + userDetails.getUsername();
+                message = "There was some problem in updating!";
+            }
+            pst.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return message;
+    }
+
+    public String passRecovery(String email_or_username, HttpServletRequest request) throws AddressException, MessagingException, MalformedURLException {
+        String msg = "";
+        
+        String sql = "SELECT email_address FROM users WHERE username=? OR email_address=?";
+        con = MySQLConnection.connect();
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1, email_or_username);
+            pst.setString(2, email_or_username);
+            
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                String email_address = rs.getString("email_address");
+                if(email_address != null){
+                    String to = email_address;
+                    String from = "care@survey.com";
+                    String host = "localhost";
+                    String subject = "Passowrd Recovery | Survey";
+                    
+                    SecureRandom random = new SecureRandom();
+                    String auto_id = new BigInteger(130, random).toString(32);
+                    URL url = new URL(request.getRequestURL().toString());
+                    String link = "http://" + url.getAuthority() + "/SurveyWebProgramming/recovery?email="+email_address+"&id="+auto_id+"";
+                    
+                    String body = "Click in this <a href='" + link + "'>link</a> to create a new password!";
+                    
+                    Properties properties = System.getProperties();
+                    properties.setProperty("mail.smtp.host", host);
+                    Session mailSession = Session.getDefaultInstance(properties);
+                    msg = "A link has been sent to your email! Check this out! </br>" + body;
+
+                    try{
+                       MimeMessage message = new MimeMessage(mailSession);
+                       message.setFrom(new InternetAddress(from));
+                       message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                       message.setSubject(subject);
+                       message.setText(body);
+                       RecoveryTempInfoTable recoveryTempObj = new RecoveryTempInfoTable();
+                       recoveryTempObj.InsertRecoveryTemp(email_address, auto_id);
+                       Transport.send(message);
+                       msg = "A link has been sent to your email! Check this out!\n" + body;
+                    }catch (MessagingException mex) {
+                       //msg = "Error: unable to send message....";
+                    }
+                }
+            }
+            else{
+                msg = "Username/Email not found!";
+            }
+            pst.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return msg;
+    }
+    
+    public String resetPassword(User userDetails, String sql) {
+        String message = "";
+        
+        con = MySQLConnection.connect();
+        try {
+            pst = con.prepareStatement(sql);
+            
+            pst.setString(1, userDetails.getPassword());
+            pst.setString(2, userDetails.getEmail_address());
+            //JOptionPane.showMessageDialog(null, userDetails.getPassword() + " " + userDetails.getEmail_address());
+            
+            if (pst.executeUpdate()!= 0) {
+                message = "New Information has been updated!";
+                RecoveryTempInfoTable recoveryTempInfoTable = new RecoveryTempInfoTable();
+                recoveryTempInfoTable.deleteRaws(userDetails.getEmail_address());
+            }
+            else{
+                message = "There was some problem in updating!";
             }
             pst.close();
         } catch (SQLException ex) {

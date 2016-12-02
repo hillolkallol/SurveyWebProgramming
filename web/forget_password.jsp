@@ -1,11 +1,15 @@
 <%-- 
-    Document   : login
-    Created on : Nov 23, 2016, 12:39:07 AM
+    Document   : forget_password
+    Created on : Nov 30, 2016, 11:11:38 PM
     Author     : KD
 --%>
-<!DOCTYPE html>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% String error = (String) request.getAttribute("login_error_msg");  %> 
+<% String message = " ";
+    if((String) request.getAttribute("pass_recovery") != null)
+        message = (String) request.getAttribute("pass_recovery");  
+%> 
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Polling</title>
@@ -23,16 +27,14 @@
         <div class="login_page_body">
             <div class="sign_in_section">
                 <img class="logo" src="img/logo.png"><br><br>
-                <h2>Sign In</h2><br>
-                <form method="post" action="login_checking">
-                    <label>Username: </label><input type="text" name="USERNAME" required><br>
-                    <label>Password: </label><input type="password" name="PASSWORD" required><br>
-                    <label><%= error %></label><br><br>
-                    <input type="submit" value="Sign In"><br>
+                <h2>Forget Password?</h2><br>
+                <p>A password recovery link will be sent to your Email address after submitting!</p><br>
+                <form method="post" action="forget_password">
+                    <label>Username/Email: </label><input type="text" name="email_or_username" required><br>
+                    <label><%= message %></label><br>
+                    <input type="submit" value="Recover"><br>
                 </form>
-                
-                <a class="customize_link" href="${pageContext.request.contextPath}/forget_password">Forget Password?</a>
-                <a class="customize_link" href="sign_up_primary.html">Create a new account</a>
+                <a class="customize_link" href="${pageContext.request.contextPath}/login">Back to home?</a>
             </div>
         </div>
         <div id="footer" class="fixed_footer">

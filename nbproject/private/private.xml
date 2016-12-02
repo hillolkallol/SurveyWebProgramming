@@ -3,16 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/ProfileController.java</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/homepage.jsp</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/dashboard.jsp</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/DashboardController.java</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/profile.jsp</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/ProfileController.java</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/forget_password.jsp</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/LoginCheckingController.java</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/ForgetPassController.java</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/db/RecoveryTempInfoTable.java</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/login.jsp</file>
-            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/db/MySQLConnection.java</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/recovery.jsp</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/LoginController.java</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/models/User.java</file>
             <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/db/UserTable.java</file>
-            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/HomepageController.java</file>
-            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/web/profile.jsp</file>
+            <file>file:/D:/Development/Netbeans/SurveyWebProgramming/src/java/com/survey/controllers/RecoveryController.java</file>
         </group>
     </open-files>
 </project-private>
