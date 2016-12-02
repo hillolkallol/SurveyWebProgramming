@@ -25,6 +25,7 @@ public class UserTable {
     
     public boolean login(User user, String sql){
         con = MySQLConnection.connect();
+        
         boolean bool = false;
         try {
             pst = con.prepareStatement(sql);
