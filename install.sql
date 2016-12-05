@@ -24,9 +24,10 @@ CREATE TABLE country(
 	PRIMARY KEY(country_id)
 );
 
+DROP TABLE survey_details;
 CREATE TABLE survey_details(
-	survey_id INT,
-	survey_tile VARCHAR(128),
+	survey_id INT NOT NULL AUTO_INCREMENT,
+	survey_title VARCHAR(128),
 	survey_description VARCHAR(512),
 	logo_location VARCHAR(11),
 	last_modification_time DATETIME,

@@ -69,10 +69,9 @@ public class ProfileController extends HttpServlet {
             else
                 userDetails.setPassword(new_pass);
             
-            String sql = "UPDATE users SET first_name=?,last_name=?,email_address=?,password=? WHERE username=?";
             UserTable usertable = new UserTable();
             String s = "";
-            s = usertable.updateUserInfo(userDetails, sql);
+            s = usertable.updateUserInfo(userDetails);
             request.setAttribute("update_message", s);
             doGet(request, response);
         }

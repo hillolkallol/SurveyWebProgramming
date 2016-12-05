@@ -36,8 +36,9 @@ public class UserTable {
     private ResultSet rs = null;
     private PreparedStatement pst = null;
     
-    public boolean login(User user, String sql){
+    public boolean login(User user){
         con = MySQLConnection.connect();
+        String sql = "SELECT username, password FROM users WHERE username=? AND password=?";
         boolean bool = false;
         try {
             pst = con.prepareStatement(sql);
@@ -103,9 +104,9 @@ public class UserTable {
         return userDetails;
     }
 
-    public String updateUserInfo(User userDetails, String sql) {
+    public String updateUserInfo(User userDetails) {
         String message = "";
-        
+        String sql = "UPDATE users SET first_name=?,last_name=?,email_address=?,password=? WHERE username=?";
         con = MySQLConnection.connect();
         try {
             pst = con.prepareStatement(sql);
@@ -188,9 +189,9 @@ public class UserTable {
         return msg;
     }
     
-    public String resetPassword(User userDetails, String sql) {
+    public String resetPassword(User userDetails) {
         String message = "";
-        
+        String sql = "UPDATE users SET password=? WHERE email_address=?";
         con = MySQLConnection.connect();
         try {
             pst = con.prepareStatement(sql);
@@ -213,5 +214,25 @@ public class UserTable {
         }
         
         return message;
+    }
+
+    public long findUserID(String username) {
+        long user_id = 0;
+        con = MySQLConnection.connect();
+        String sql = "SELECT user_id FROM users WHERE username=?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1, username);
+            
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                user_id = rs.getLong("user_id");
+            }
+            pst.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user_id;
     }
 }

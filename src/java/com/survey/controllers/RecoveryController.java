@@ -55,10 +55,9 @@ public class RecoveryController extends HttpServlet {
             userDetails.setPassword(pass);
             userDetails.setEmail_address(email);
             
-            String sql = "UPDATE users SET password=? WHERE email_address=?";
             UserTable usertable = new UserTable();
             String s = "";
-            s = usertable.resetPassword(userDetails, sql);
+            s = usertable.resetPassword(userDetails);
             request.setAttribute("update_message", s);
             doGet(request, response);
         }

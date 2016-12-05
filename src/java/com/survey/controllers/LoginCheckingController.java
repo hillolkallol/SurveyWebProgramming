@@ -34,9 +34,8 @@ public class LoginCheckingController extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
         
-        String sql = "SELECT username, password FROM users WHERE username=? AND password=?";
         UserTable usertable = new UserTable();
-        boolean b = usertable.login(user, sql);
+        boolean b = usertable.login(user);
         
         if(b){
             request.setAttribute("user", user);
