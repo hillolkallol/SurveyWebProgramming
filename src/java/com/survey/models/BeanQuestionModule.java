@@ -14,21 +14,33 @@ import java.util.List;
  * @author Ratul
  */
 public class BeanQuestionModule implements Serializable {
-    
-   private String questionDesc;
-   private List<BeanOption> options;
-    
+
+    private long questionId;
+    private String questionDesc;
+    private long surveyId;
+    private List<BeanOptionModule> options;
+
     private PropertyChangeSupport propertySupport;
     
     public BeanQuestionModule() {
         propertySupport = new PropertyChangeSupport(this);
     }
+
+    public void addOption(BeanOptionModule option)
+    {
+        options.add(option);
+        //return options;
+    }
     
-   
+    public BeanOptionModule getNthOption(int nTh)
+    {
+        return options.get(nTh);
+    }
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
-    
+
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
@@ -41,12 +53,28 @@ public class BeanQuestionModule implements Serializable {
         this.questionDesc = questionDesc;
     }
 
-    public List<BeanOption> getOptions() {
+    public List<BeanOptionModule> getOptions() {
         return options;
     }
 
-    public void setOptions(List<BeanOption> options) {
+    public void setOptions(List<BeanOptionModule> options) {
         this.options = options;
     }
-    
+
+    public long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(long questionId) {
+        this.questionId = questionId;
+    }
+
+    public long getSurveyId() {
+        return surveyId;
+    }
+
+    public void setSurveyId(long surveyId) {
+        this.surveyId = surveyId;
+    }
+
 }

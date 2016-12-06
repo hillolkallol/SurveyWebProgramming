@@ -49,7 +49,8 @@ public class DashboardController extends HttpServlet {
             ParticipationTable participationTable = new ParticipationTable();
             beanSurveyModuleModel = surveyTable.selectFromSurveyTable(u.getUsername());
             request.setAttribute("beanSurveyModuleModel", beanSurveyModuleModel);
-//            request.setAttribute("participent", participationTable.totalParticipent(beanSurveyModuleModel.getSurveyID()));
+            request.setAttribute("participent", participationTable.totalParticipent(beanSurveyModuleModel));
+            request.setAttribute("change_status_option", statusButton(beanSurveyModuleModel));
 //            if(beanSurveyModuleModel.getPublishTime().before(getCurrentTimeStamp()))
 //                request.setAttribute("change_status_option", "Unpublish");
 //            else
@@ -67,5 +68,9 @@ public class DashboardController extends HttpServlet {
     Date now = new Date();
     Timestamp strDate = Timestamp.valueOf(sdfDate.format(now));
     return strDate;
+    }
+
+    private List<Timestamp> statusButton(List<BeanSurveyModule> beanSurveyModuleModel) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

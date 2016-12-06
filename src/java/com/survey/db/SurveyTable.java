@@ -31,68 +31,106 @@ public class SurveyTable {
     private ResultSet resultSet = null;
     private PreparedStatement preparedStatement = null;
 
-    //INSERT INTO survey_details (survey_tile, survey_description) VALUES ("temporary title", "this can be description");
-    private String insertStatement = "INSERT INTO survey_details (survey_tile, survey_description) VALUES (?,?);";
+    private static final String colSurveyTitle = "survey_title";
+    private static final String colSurveyDesc = "survey_description";
+    private static final String colSurvyLogoLoc = "logo_location";
+    private static final String colSurveyLastModifTime = "last_modification_time";
+    private static final String colSurveyPublishedTime = "publish_time";
+    private static final String colSurveyClosingTime = "closing_time";
+
+    //INSERT INTO survey_details (survey_title, survey_description) VALUES ("temporary title", "this can be description");
+    private final String insertStatement = "INSERT INTO survey_details (survey_title, survey_description, last_modification_time, publish_time) VALUES (?,?,?,?);";
+    private final String selectByIdStatement = "SELECT * FROM survey_details WHERE survey_id = ?;";
 
     public void insertIntoSurveyTable(BeanSurveyModule beanSurveyModule) throws SQLException {
-        {
-            try {
-                connection = MySQLConnection.connect();
-                preparedStatement = connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
-                preparedStatement.setString(1, beanSurveyModule.getSurveyTitle());
-                preparedStatement.setString(1, beanSurveyModule.getSurveyDesc());
 
-                int affectedRows = preparedStatement.executeUpdate();
+        try {
+            connection = MySQLConnection.connect();
+            preparedStatement = connection.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, beanSurveyModule.getSurveyTitle());
+            preparedStatement.setString(2, beanSurveyModule.getSurveyDesc());
+            preparedStatement.setTimestamp(3, beanSurveyModule.getLastModifiedTime());
+            preparedStatement.setTimestamp(4, beanSurveyModule.getPublishedTime());
 
-                if (affectedRows == 0) {
-                    throw new SQLException("Creating Survey failed, no rows affected!");
-                }
+            int affectedRows = preparedStatement.executeUpdate();
 
-                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        beanSurveyModule.setSurveyID(generatedKeys.getLong(1));
-                    } else {
-                        throw new SQLException("Creating user failed, no ID obtained.");
-                    }
-                }
-
-            } catch (SQLException ex) {
-                throw ex;
+            if (affectedRows == 0) {
+                throw new SQLException("Creating Survey failed, no rows affected!");
             }
+
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    beanSurveyModule.setSurveyID(generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            close();
+        }
+
+    }
+
+    public BeanSurveyModule selectSurveyById(long surveyId) throws SQLException {
+        BeanSurveyModule beanSurveyModule = new BeanSurveyModule();
+        try {
+            connection = MySQLConnection.connect();
+            preparedStatement = connection.prepareStatement(selectByIdStatement);
+            preparedStatement.setDouble(1, surveyId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                beanSurveyModule.setSurveyID(surveyId);
+                beanSurveyModule.setSurveyTitle(resultSet.getString(colSurveyTitle));
+                beanSurveyModule.setSurveyDesc(resultSet.getString(colSurveyDesc));
+                beanSurveyModule.setLogoLocation(resultSet.getString(colSurvyLogoLoc));
+                beanSurveyModule.setLastModifiedTime(resultSet.getTimestamp(colSurveyLastModifTime));
+                beanSurveyModule.setPublishedTime(resultSet.getTimestamp(colSurveyPublishedTime));
+                beanSurveyModule.setClosingTime(resultSet.getTimestamp(colSurveyClosingTime));
+            }
+            return beanSurveyModule;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            close();
         }
     }
 
-    public List <BeanSurveyModule> selectFromSurveyTable(String username) {
+    public List<BeanSurveyModule> selectFromSurveyTable(String username) {
         //find user id
         UserTable userTable = new UserTable();
         long user_id = userTable.findUserID(username);
-        
+
         connection = MySQLConnection.connect();
         String sql = "SELECT survey_id, survey_title, last_modification_time, publish_time FROM survey_details WHERE user_id=?";
-        
-        BeanSurveyModule beanSurveyModule = new BeanSurveyModule();
-        List <BeanSurveyModule> beanSurveyModulesList = new ArrayList<>();
-        
+
+        List<BeanSurveyModule> beanSurveyModulesList = new ArrayList<>();
+
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, user_id);
-            
+
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                BeanSurveyModule beanSurveyModule = new BeanSurveyModule();
+
                 Long survey_id = resultSet.getLong("survey_id");
                 String survey_title = resultSet.getString("survey_title");
                 Timestamp last_modification_time = resultSet.getTimestamp("last_modification_time");
                 Timestamp publish_time = resultSet.getTimestamp("publish_time");
-                
+
                 beanSurveyModule.setSurveyID(survey_id);
                 beanSurveyModule.setSurveyTitle(survey_title);
-                beanSurveyModule.setModificationTime(last_modification_time);
-                beanSurveyModule.setPublishTime(publish_time);
+                beanSurveyModule.setLastModifiedTime(last_modification_time);
+                beanSurveyModule.setPublishedTime(publish_time);
                 beanSurveyModule.setUserID(user_id);
-                
+
                 beanSurveyModulesList.add(beanSurveyModule);
             }
-            
+
             preparedStatement.close();
             resultSet.close();
         } catch (SQLException ex) {
@@ -100,6 +138,23 @@ public class SurveyTable {
         }
         return beanSurveyModulesList;
     }
-    
-    
+
+    private void close() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
 }

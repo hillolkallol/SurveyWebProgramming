@@ -50,18 +50,27 @@
 					<tr>
 						<th>Title</th>
 						<th>Last Modification Date</th>
-						<th># of Participent</th>
+						<th># of Participant</th>
 						<th class="dashboard_created_by_me_table_column4"> Change Status</th>
 					</tr>
 					<tr>
-						<td><a href="detailed_view?survey_id=">
-                                                        ${b}
+                                                <td><a href="detailed_view?survey_id=${item.getSurveyID()}">
+                                                        <c:forEach items="${beanSurveyModuleModel}" var="item">
+                                                            ${item.getSurveyTitle()}<br>
+                                                        </c:forEach>
+                                                    </a>
+                                                </td>
+						
+                                                <td>
                                                     <c:forEach items="${beanSurveyModuleModel}" var="item">
-                                                        ${item.getSurveyTitle()}<br>
+                                                        ${item.getModificationTime()}<br>
                                                     </c:forEach>
-                                                    </a></td>
-						<td></td>
-						<td></td>
+                                                </td>
+                                                <td>
+                                                    <c:forEach items="${participent}" var="item">
+                                                        ${item}<br>
+                                                    </c:forEach>
+                                                </td>
 						<td class="dashboard_created_by_me_table_column4">
                                                     <a href=""><input type="submit" name="publsih" value=""></a>
 						</td>

@@ -5,10 +5,13 @@
  */
 package com.survey.db;
 
+import com.survey.models.BeanSurveyModule;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,17 +24,26 @@ public class ParticipationTable {
     private ResultSet rs = null;
     private PreparedStatement pst = null;
 
-    public int totalParticipent(long surveyID) {
+    /**
+     *
+     * @param beanSurveyModuleModel
+     * @return
+     */
+    public List<Integer> totalParticipent(List <BeanSurveyModule> beanSurveyModuleModel) {
+        List<Integer> list = new ArrayList<>();
         int totalParticipent = 0;
         con = MySQLConnection.connect();
         String sql = "SELECT user_id FROM participation WHERE survey_id=?";
         try {
             pst = con.prepareStatement(sql);
-            pst.setLong(1, surveyID);
+            for(int i=0; i<beanSurveyModuleModel.size(); i++){
+                pst.setLong(1, beanSurveyModuleModel.get(i).getSurveyID());
             
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                totalParticipent++;
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    totalParticipent++;
+                }
+                list.add(totalParticipent);
             }
             pst.close();
             rs.close();
@@ -39,7 +51,7 @@ public class ParticipationTable {
             Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return totalParticipent;
+        return list;
     }
     
 }

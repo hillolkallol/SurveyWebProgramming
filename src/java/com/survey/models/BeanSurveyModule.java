@@ -15,27 +15,26 @@ import java.util.List;
  * @author Ratul
  */
 public class BeanSurveyModule implements Serializable {
-    
-    
-    
+
     private PropertyChangeSupport propertySupport;
     private long surveyID;
     private String surveyTitle;
     private String surveyDesc;
-    private Timestamp modificationTime;
-    private Timestamp publishTime;
+    private String logoLocation;
+    private Timestamp lastModifiedTime;
+    private Timestamp publishedTime;
+    private java.sql.Timestamp closingTime;
     private long userID;
     private List<BeanQuestionModule> questionModules;
-    
-    
+
     public BeanSurveyModule() {
         propertySupport = new PropertyChangeSupport(this);
     }
-       
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
-    
+
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
@@ -72,20 +71,12 @@ public class BeanSurveyModule implements Serializable {
         this.surveyID = surveyID;
     }
 
-    public Timestamp getModificationTime() {
-        return modificationTime;
+    public String getLogoLocation() {
+        return logoLocation;
     }
 
-    public Timestamp getPublishTime() {
-        return publishTime;
-    }
-
-    public void setModificationTime(Timestamp modificationTime) {
-        this.modificationTime = modificationTime;
-    }
-
-    public void setPublishTime(Timestamp publishTime) {
-        this.publishTime = publishTime;
+    public void setLogoLocation(String logoLocation) {
+        this.logoLocation = logoLocation;
     }
 
     public long getUserID() {
@@ -94,5 +85,29 @@ public class BeanSurveyModule implements Serializable {
 
     public void setUserID(long userID) {
         this.userID = userID;
+    }
+
+    public Timestamp getLastModifiedTime() {
+        return lastModifiedTime;
+    }
+
+    public void setLastModifiedTime(Timestamp lastModifiedTime) {
+        this.lastModifiedTime = lastModifiedTime;
+    }
+
+    public Timestamp getPublishedTime() {
+        return publishedTime;
+    }
+
+    public void setPublishedTime(Timestamp publishedTime) {
+        this.publishedTime = publishedTime;
+    }
+
+    public java.sql.Timestamp getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(java.sql.Timestamp closingTime) {
+        this.closingTime = closingTime;
     }
 }

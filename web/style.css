@@ -5,62 +5,66 @@
 }
 
 html, body{
-	height: 100%;
-	font-family: 'Roboto', sanserif;
+    height: 100%;
+    /*font-family: 'Roboto', sanserif;*/
     font-size: 16px;
     font-weight: 300;
-    text-align: justify;
-    background-color:#D35400;
+    /*text-align: justify;*/
+    /*background-color:#D35400;*/
 }
 
-input[type="text"], input[type="password"], input[type="email"], textarea, select {
-	border: none;
-	border-bottom: dotted 1px #616161;
-	width: 400px;
-	height: 30px;
-	background-color: transparent;
-	color: black;
-	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
-	font-size: 16px;
-	margin-bottom: 15px;
-	margin-right: 10px;
+textarea.form-control {
+  height: 100%;
 }
-
-input[type="textarea"] {
-	border: none;
-	border-bottom: dotted 1px #616161;
-	width: 600px;
-	height: 100px;
-	background-color: transparent;
-	color: black;
-	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
-	font-size: 16px;
-	margin-bottom: 15px;
-	margin-right: 10px;
+/*
+input[type="password"], input[type="email"], textarea, select {
+    border: none;
+    border-bottom: dotted 1px #616161;
+    width: 400px;
+    height: 30px;
+    background-color: transparent;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    margin-bottom: 15px;
+    margin-right: 10px;
 }
+*/
+/*input[type="textarea"] {
+        border: none;
+        border-bottom: dotted 1px #616161;
+        /*width: 600px;
+        height: 100px;
+        background-color: transparent;
+        color: black;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        margin-bottom: 15px;
+        margin-right: 10px;
+*/
 
-input[type="submit"] {
-	background-color: #00A1CB;
-	border:none;
-	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
-	font-size: 14px;
+/*input[type="submit"] {
+        background-color: #00A1CB;
+        border:none;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 14px;
     cursor: pointer;
-	text-transform: uppercase;
-	color: #ffffff;
-	height: 36px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
+        text-transform: uppercase;
+        color: #ffffff;
+        height: 36px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
 }
 
 input[type="submit"]:hover {
 	background-color: #F18D05;
 }
-
+*/
 input[type="checkbox"], input[type="radio"] {
 	margin-bottom: 15px;
 	margin-right: 10px;
@@ -453,4 +457,10 @@ input[type="checkbox"], input[type="radio"] {
 .image-upload > input
 {
     display: none;
+}
+
+.option_input
+{
+    margin: 10px;
+    background-color: red;
 }
