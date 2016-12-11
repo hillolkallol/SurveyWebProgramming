@@ -26,15 +26,23 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //PrintWriter out = response.getWriter();
         request.setAttribute("login_error_msg", "");
         HttpSession ses = request.getSession(false);
-        if(ses != null){
-            //request.getRequestDispatcher(page).forward(request, response);
-            response.sendRedirect("homepage");
-        }
-        else {
+        if (ses != null) {
+            if(ses.getAttribute("user") != null){
+                //out.println("not null");
+                //request.getRequestDispatcher(page).forward(request, response);
+                response.sendRedirect("/apollo.10/SurveyWebProgramming/homepage");
+            }
+            else {
+                //out.println("null");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                //response.sendRedirect("login?request="+request+"&response="+response);
+            }
+        } else {
+            //out.println("session null");
             request.getRequestDispatcher("login.jsp").forward(request, response);
-            //response.sendRedirect("login?request="+request+"&response="+response);
         }
     }
 }

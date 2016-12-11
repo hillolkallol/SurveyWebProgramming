@@ -153,9 +153,14 @@ public class UserTable {
                     SecureRandom random = new SecureRandom();
                     String auto_id = new BigInteger(130, random).toString(32);
                     URL url = new URL(request.getRequestURL().toString());
-                    String link = "http://" + url.getAuthority() + "/SurveyWebProgramming/recovery?email="+email_address+"&id="+auto_id+"";
+                    String link = "http://" + url.getAuthority() + "/apollo.10/SurveyWebProgramming/recovery?email="+email_address+"&id="+auto_id+"";
                     
-                    String body = "Click in this <a href='" + link + "'>link</a> to create a new password!";
+                    String body = "Click the link below to reset your passwrod.."
+                            + "<form method=\"post\" action=\"https://weave.cs.nmt.edu/apollo.10/SurveyWebProgramming/recovery\">"
+                            + "<input type=\"text\" name=\"email\" value="+email_address+" hidden>"
+                            + "<input type=\"text\" name=\"id\" value="+auto_id+" hidden>"
+                            + "<input type=\"submit\" value=\"Click Here\">"
+                            + "</form> ";
                     
                     Properties properties = System.getProperties();
                     properties.setProperty("mail.smtp.host", host);
@@ -167,11 +172,11 @@ public class UserTable {
                        message.setFrom(new InternetAddress(from));
                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
                        message.setSubject(subject);
-                       message.setText(body);
+                       message.setContent(body,"text/html");
                        RecoveryTempInfoTable recoveryTempObj = new RecoveryTempInfoTable();
                        recoveryTempObj.InsertRecoveryTemp(email_address, auto_id);
                        Transport.send(message);
-                       msg = "A link has been sent to your email! Check this out!\n" + body;
+                       msg = "A link has been sent to your email! Check this out!\n\n" + body;
                     }catch (MessagingException mex) {
                        //msg = "Error: unable to send message....";
                     }
@@ -216,8 +221,8 @@ public class UserTable {
         return message;
     }
 
-    public long findUserID(String username) {
-        long user_id = 0;
+    public int findUserID(String username) {
+        int user_id = 0;
         con = MySQLConnection.connect();
         String sql = "SELECT user_id FROM users WHERE username=?";
         try {
@@ -226,7 +231,7 @@ public class UserTable {
             
             rs = pst.executeQuery();
             if (rs.next()) {
-                user_id = rs.getLong("user_id");
+                user_id = rs.getInt("user_id");
             }
             pst.close();
             rs.close();

@@ -5,16 +5,13 @@
 --%>
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% String error = (String) request.getAttribute("login_error_msg");%> 
+<% String error = (String) request.getAttribute("login_error_msg");
+        if(error == null)
+            error = "";
+%> 
 <html lang="en">
     <head>
-        <title>Polling</title>
-
-        <meta charset="UTF-8">
-        <meta name="description" content="Polling web application">
-        <meta name="keywords" content="Polling, Voting, Feedback">
-        <meta name="author" content="bdTigers">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        
         <!-- bootstrap file -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,32 +28,21 @@
     <body>
         <%@ page session="false" %>
         <div class="login_page_body">
-            <div class="sign_in_section panel panel-info">
+            <div class="sign_in_section ">
                 <div class="panel-heading"><img class="logo" src="img/logo.png"><br><br>
                     <h2 >Sign In</h2></div>
                 <form method="post" action="login_checking" class="panel-body">
-                    <input class="form-control" type="text" placeholder="user name" name="USERNAME" required><br>
+                    <input class="form-control" type="text" placeholder="username" name="USERNAME" required><br>
                     <input class="form-control" type="password" placeholder="password" name="PASSWORD" required><br>
                     <label><%= error%></label><br><br>
                     <input class="btn btn-primary" type="submit" value="Sign In"><br>
                 </form>
 
-                <a class="customize_link" href="${pageContext.request.contextPath}/forget_password">Forget Password?</a>
-                <a class="customize_link" href="sign_up_primary.html">Create a new account</a>
+                <a class="customize_link" href="forget_password">Forget Password?</a>
+                <a class="customize_link" href="sign_up_primary.jsp">Create a new account</a>
             </div>
         </div>
-        <div id="footer" class="fixed_footer">
-            <div class="footer_body">
-                <table class="footer_table">
-                    <tr>
-                        <td><a class="customize_link" href="about.html">About</a></td>
-                        <td><a class="customize_link" href="copyright.html">Copyright</a></td>
-                        <td><a class="customize_link" href="terms.html">Terms and Conditions</a></td>
-                        <td><a class="customize_link" href="help.html">Helps</a></td>
-                        <td><a class="customize_link" href="contact.html">Contact Us</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+                    <br><br><br><br><br>
+        <%@include file="footer.jsp" %>
     </body>
 </html>

@@ -57,7 +57,7 @@ public class OptionsTable {
                             if (generatedKeys.next()) {
                                 questionModule.getOptions().get(cntOption).setOptionId(generatedKeys.getLong(1));
                             } else {
-                                throw new SQLException("Creating user failed, no ID obtained.");
+                                throw new SQLException("Creating Option failed, no ID obtained.");
                             }
                         }
                     }

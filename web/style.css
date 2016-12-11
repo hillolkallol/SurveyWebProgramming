@@ -16,6 +16,13 @@ html, body{
 textarea.form-control {
   height: 100%;
 }
+.link-button {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    color: #20a8d8;
+    cursor: pointer;
+}
 /*
 input[type="password"], input[type="email"], textarea, select {
     border: none;
@@ -257,7 +264,8 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .dashboard_created_by_me_table {
-	width: 100%;
+    width: 100%;
+        text-align: center;
 }
 
 .dashboard_created_by_me_table_column4 {
@@ -462,5 +470,5 @@ input[type="checkbox"], input[type="radio"] {
 .option_input
 {
     margin: 10px;
-    background-color: red;
+/*    background-color: red;*/
 }

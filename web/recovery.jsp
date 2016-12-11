@@ -13,45 +13,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Polling</title>
 
-        <meta charset="UTF-8">
-        <meta name="description" content="Polling web application">
-        <meta name="keywords" content="Polling, Voting, Feedback">
-        <meta name="author" content="bdTigers">
-        <link rel="stylesheet" type="text/css" href="style.css">
-
+        <!-- bootstrap file -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width = device-width, initial-scale = 1">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- bootstrap file -->
     </head>
 
     <body>
         <%@ page session="false" %>
         <div class="login_page_body">
             <div class="sign_in_section">
-                <img class="logo" src="img/logo.png"><br><br>
-                <h2>Reset Password</h2><br>
-                <form method="post" action="recovery">
-                    <label>New Password: </label><input type="password" name="pass" required><br>
-                    <label>Re-type Password: </label><input type="password" name="repass" required><br>
+                <div class="panel-heading"><img class="logo" src="img/logo.png"><br><br>
+                    <h2 >Reset Password</h2></div>
+                <form method="post" action="recovered" class="panel-body">
+                    <input class="form-control" placeholder="new password" type="password" name="pass" required><br>
+                    <input class="form-control" placeholder="re-type passwod" type="password" name="repass" required><br>
                     <input type="text" name="email" value="${email}" hidden>
                     <label><%= message %></label><br>
-                    <input type="submit" value="Reset"><br>
+                    <input class="btn btn-primary" type="submit" value="Reset"><br>
                 </form>
                 <a class="customize_link" href="${pageContext.request.contextPath}/login">Back to home?</a>
             </div>
         </div>
-        <div id="footer" class="fixed_footer">
-            <div class="footer_body">
-                <table class="footer_table">
-                    <tr>
-                        <td><a class="customize_link" href="about.html">About</a></td>
-                        <td><a class="customize_link" href="copyright.html">Copyright</a></td>
-                        <td><a class="customize_link" href="terms.html">Terms and Conditions</a></td>
-                        <td><a class="customize_link" href="help.html">Helps</a></td>
-                        <td><a class="customize_link" href="contact.html">Contact Us</a></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        <%@include file="footer.jsp" %>
     </body>
 </html>
 

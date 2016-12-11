@@ -39,7 +39,7 @@ public class SurveyTable {
     private static final String colSurveyClosingTime = "closing_time";
 
     //INSERT INTO survey_details (survey_title, survey_description) VALUES ("temporary title", "this can be description");
-    private final String insertStatement = "INSERT INTO survey_details (survey_title, survey_description, last_modification_time, publish_time) VALUES (?,?,?,?);";
+    private final String insertStatement = "INSERT INTO survey_details (survey_title, survey_description, last_modification_time, publish_time, user_id) VALUES (?,?,?,?,?);";
     private final String selectByIdStatement = "SELECT * FROM survey_details WHERE survey_id = ?;";
 
     public void insertIntoSurveyTable(BeanSurveyModule beanSurveyModule) throws SQLException {
@@ -51,6 +51,7 @@ public class SurveyTable {
             preparedStatement.setString(2, beanSurveyModule.getSurveyDesc());
             preparedStatement.setTimestamp(3, beanSurveyModule.getLastModifiedTime());
             preparedStatement.setTimestamp(4, beanSurveyModule.getPublishedTime());
+            preparedStatement.setLong(5, beanSurveyModule.getUserID());
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -135,6 +136,44 @@ public class SurveyTable {
             resultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return beanSurveyModulesList;
+    }
+    
+    public List<BeanSurveyModule> surveyDetailsParticipatedByMe(List <Integer> survey_id) {
+        //find user id
+        UserTable userTable = new UserTable();
+
+        List<BeanSurveyModule> beanSurveyModulesList = new ArrayList<>();
+        for(int i = 0; i < survey_id.size(); i++){
+            connection = MySQLConnection.connect();
+            String sql = "SELECT survey_id, survey_title, survey_description, last_modification_time FROM survey_details WHERE survey_id = ?";
+            
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, survey_id.get(i));
+
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    BeanSurveyModule beanSurveyModule2 = new BeanSurveyModule();
+
+                    int id = resultSet.getInt("survey_id");
+                    String survey_title = resultSet.getString("survey_title");
+                    String survey_desc = resultSet.getString("survey_description");
+                    Timestamp last_modification_time = resultSet.getTimestamp("last_modification_time");
+
+                    beanSurveyModule2.setSurveyID(id);
+                    beanSurveyModule2.setSurveyTitle(survey_title);
+                    beanSurveyModule2.setSurveyDesc(survey_desc);
+                    beanSurveyModule2.setLastModifiedTime(last_modification_time);
+
+                    beanSurveyModulesList.add(beanSurveyModule2);
+                }
+
+                close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserTable.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return beanSurveyModulesList;
     }

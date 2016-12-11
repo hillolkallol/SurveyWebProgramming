@@ -9,9 +9,11 @@ package com.survey.controllers;
 import com.survey.db.OptionsTable;
 import com.survey.db.QuestionsTable;
 import com.survey.db.SurveyTable;
+import com.survey.db.UserTable;
 import com.survey.models.BeanOptionModule;
 import com.survey.models.BeanQuestionModule;
 import com.survey.models.BeanSurveyModule;
+import com.survey.models.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,7 +45,7 @@ public class CreateSurveyController extends HttpServlet {
     private static final String labelOption5 = "option5";
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //LoginFilter lf = new LoginFilter();
         //lf.isSession(request, response, "create_survey");
@@ -60,12 +63,17 @@ public class CreateSurveyController extends HttpServlet {
 
         List<BeanQuestionModule> allQuestion = getAllQuestionFromReq(questions, option1s, option2s, option3s, option4s, option5s);
 
+        HttpSession ses = request.getSession(false);
+        User u = (User) ses.getAttribute("user");
+        UserTable usertable = new UserTable();
+        
         BeanSurveyModule survey = new BeanSurveyModule();
         survey.setSurveyTitle(surveyTitle);
         survey.setSurveyDesc(surveyDesc);
         survey.setQuestionModules(allQuestion);
         survey.setLastModifiedTime(dateTimeNow);
         survey.setPublishedTime(dateTimeNow);
+        survey.setUserID(usertable.findUserID(u.getUsername()));
 
         SurveyTable surveyTable = new SurveyTable();
         QuestionsTable questionTable = new QuestionsTable();
@@ -78,6 +86,7 @@ public class CreateSurveyController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CreateSurveyController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        response.sendRedirect("/apollo.10/SurveyWebProgramming/dashboard");
 
     }
 

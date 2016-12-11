@@ -44,22 +44,13 @@ public class DashboardController extends HttpServlet {
 //        request.setAttribute("userDetails", userDetails);
         
         if(ses != null){
-            List <BeanSurveyModule> beanSurveyModuleModel = new ArrayList<>();
-            SurveyTable surveyTable = new SurveyTable();
-            ParticipationTable participationTable = new ParticipationTable();
-            beanSurveyModuleModel = surveyTable.selectFromSurveyTable(u.getUsername());
-            request.setAttribute("beanSurveyModuleModel", beanSurveyModuleModel);
-            request.setAttribute("participent", participationTable.totalParticipent(beanSurveyModuleModel));
-            request.setAttribute("change_status_option", statusButton(beanSurveyModuleModel));
-//            if(beanSurveyModuleModel.getPublishTime().before(getCurrentTimeStamp()))
-//                request.setAttribute("change_status_option", "Unpublish");
-//            else
-//                request.setAttribute("change_status_option", "Publish Now");
+            createdByMe(u, request, response);
+            participatedByMe(u, request, response);
             
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         }
         else {
-            response.sendRedirect("login");
+            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
         }
     }
     
@@ -70,7 +61,39 @@ public class DashboardController extends HttpServlet {
     return strDate;
     }
 
-    private List<Timestamp> statusButton(List<BeanSurveyModule> beanSurveyModuleModel) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private List<String> statusButton(List<BeanSurveyModule> beanSurveyModuleModel) {
+        List<String> status = new ArrayList<>();
+        for(int i=0; i<beanSurveyModuleModel.size(); i++){
+            if(beanSurveyModuleModel.get(i).getPublishedTime().before(getCurrentTimeStamp())){
+                status.add("Unpublish");
+            }
+            else{
+                status.add("publish Now");
+            }
+        }
+        return status;
+    }
+
+    private void createdByMe(User u, HttpServletRequest request, HttpServletResponse response) {
+        List <BeanSurveyModule> beanSurveyModuleModel = new ArrayList<>();
+        SurveyTable surveyTable = new SurveyTable();
+        ParticipationTable participationTable = new ParticipationTable();
+        beanSurveyModuleModel = surveyTable.selectFromSurveyTable(u.getUsername());
+        request.setAttribute("beanSurveyModuleModel", beanSurveyModuleModel);
+        request.setAttribute("participent", participationTable.totalParticipent(beanSurveyModuleModel));
+        request.setAttribute("change_status_option", statusButton(beanSurveyModuleModel));
+    }
+
+    private void participatedByMe(User u, HttpServletRequest request, HttpServletResponse response) {
+        List <BeanSurveyModule> beanSurveyModuleModelP = new ArrayList<>();
+        SurveyTable surveyTableP = new SurveyTable();
+        ParticipationTable participationTableP = new ParticipationTable();
+        UserTable userTable = new UserTable();
+        List <Integer> allSurveyID = new ArrayList<>();
+        allSurveyID = participationTableP.allSurveyID(userTable.findUserID(u.getUsername()));
+        beanSurveyModuleModelP = surveyTableP.surveyDetailsParticipatedByMe(allSurveyID);
+        request.setAttribute("beanSurveyModuleModelParticipatedByMe", beanSurveyModuleModelP);
+        request.setAttribute("participentParticipatedByMe", participationTableP.totalParticipent(beanSurveyModuleModelP));
+
     }
 }

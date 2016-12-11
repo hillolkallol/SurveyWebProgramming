@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 public class RecoveryController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String id = request.getParameter("id");
@@ -36,35 +36,7 @@ public class RecoveryController extends HttpServlet {
         if(recoveryTempObj.checkRecoveryTable(email, id) == true){
             request.getRequestDispatcher("recovery.jsp").forward(request, response);
         } else {
-            response.sendRedirect("login");
+            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
         }
-    }
-    
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        String pass = request.getParameter("pass");
-        String repass = request.getParameter("repass");
-        String email = request.getParameter("email");
-                
-        if(pass.equals(repass)) {
-            User userDetails = new User();
-        
-            userDetails.setPassword(pass);
-            userDetails.setEmail_address(email);
-            
-            UserTable usertable = new UserTable();
-            String s = "";
-            s = usertable.resetPassword(userDetails);
-            request.setAttribute("update_message", s);
-            doGet(request, response);
-        }
-        else {
-            request.setAttribute("update_message", "Old Password doesn't match!");
-            doGet(request, response);
-        }
-        
     }
 }
