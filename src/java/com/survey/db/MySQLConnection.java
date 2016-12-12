@@ -17,8 +17,8 @@ public class MySQLConnection {
     public static Connection connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/surveydb", "root", "");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/apollo10_survey_system", "apollo10", "udGo1Qrt3L");//connection established!!!
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/surveydb", "root", "");
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/apollo10_survey_system", "apollo10", "udGo1Qrt3L");//connection established!!!
             //JOptionPane.showMessageDialog(null, "Connection Established!");
             return con;
         } catch (Exception e) {
