@@ -33,14 +33,16 @@
 		<div class="body">
 			<section class="homepage_body_section">
                             <%while(res.next()){%>
-				<a href="running_survey.jsp">
+                                <form action="homepage" method="post">
+                                <input type="text" name="hidden_action" value="first_hot" hidden>
 					<section class="section_item">
 						<div class="section_item_table">
 							<div class="section_item_part1">
 								<img class="circular_image" src="img/logo.jpg" alt="logo">
 							</div>
 							<div class="section_item_part2">
-								<h2><%= res.getString(2) %></h2>
+								<input type="hidden" value="<%= res.getString(1)%>" name = "first_hot_id">
+                                        <h1><input type="submit" class="link-button" name="second_hot" value="<%= res.getString(2)%>"> </h1>
 								<p><%= res.getString(3) %></p>
 							</div>
 							<div class="section_item_part3">
@@ -49,7 +51,8 @@
 							</div>
 						</div>
 					</section>
-				</a> <%}%>
+                                                                </form>
+				<%}%>
 			</section>
 		</div>
 		<%@include file="footer.jsp" %>

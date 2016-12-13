@@ -53,10 +53,10 @@ public class RunningSurvey extends HttpServlet {
             throws ServletException, IOException {
         HttpSession ses = request.getSession(false);
         user = (User) ses.getAttribute("user");
-        
+
         UserTable usertable = new UserTable();
         user_id_extra = usertable.findUserID(user.getUsername());
-        
+
         if (ses != null) {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
         } else {
@@ -96,7 +96,7 @@ public class RunningSurvey extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(RunningSurvey.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
+         */
         beanSurveyModule = (BeanSurveyModule) request.getAttribute("beanSurveyModule");
         String size = (String) request.getAttribute("numberOfQuestion");
 
@@ -107,10 +107,10 @@ public class RunningSurvey extends HttpServlet {
             throws ServletException, IOException {
         HttpSession ses = request.getSession(false);
         user = (User) ses.getAttribute("user");
-        
+
         UserTable usertable = new UserTable();
         user_id_extra = usertable.findUserID(user.getUsername());
-        
+
         String action = request.getParameter("hidden_action");
 
         switch (action) {
@@ -120,20 +120,20 @@ public class RunningSurvey extends HttpServlet {
                     Long surveyId = Long.parseLong(strSurveyId);
                     redirectToRunningSurvey(surveyId, request, response);
                 } catch (NumberFormatException ex) {
-                    System.out.print("Conversion problem at first_hot_id");
+                    System.out.print("Conversion problem!");
                 }
                 break;
             }
-            case "second_hot": {
-                try {
-                    String strSurveyId = request.getParameter("second_hot_id");
-                    Long surveyId = Long.parseLong(strSurveyId);
-                    redirectToRunningSurvey(surveyId, request, response);
-                } catch (NumberFormatException ex) {
-                    System.out.print("Conversion problem at second_hot_id");
-                }
-                break;
-            }
+//            case "second_hot": {
+//                try {
+//                    String strSurveyId = request.getParameter("second_hot_id");
+//                    Long surveyId = Long.parseLong(strSurveyId);
+//                    redirectToRunningSurvey(surveyId, request, response);
+//                } catch (NumberFormatException ex) {
+//                    System.out.print("Conversion problem at second_hot_id");
+//                }
+//                break;
+//            }
             case "running_survey_finish": {
                 Enumeration<String> parameterNames = request.getParameterNames();
                 List<String> submittedOptions = new ArrayList<>();
@@ -178,7 +178,7 @@ public class RunningSurvey extends HttpServlet {
                     Logger.getLogger(RunningSurvey.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 redirectToFinishSurvey(request, response);
-                
+
             }
             default: {
 
@@ -229,15 +229,15 @@ public class RunningSurvey extends HttpServlet {
             //--get options
             request.setAttribute("beanSurveyModule", beanSurveyModule);
             request.setAttribute("numberOfUser", numberOfUser);
-            
+
             HttpSession ses = request.getSession(false);
             user = (User) ses.getAttribute("user");
 
             UserTable usertable = new UserTable();
             user_id_extra = usertable.findUserID(user.getUsername());
-            
+
             ParticipationTable participationTable = new ParticipationTable();
-            participationTable.insertIntoParrticipantionTable(beanSurveyModule.getSurveyID(),user_id_extra);
+            participationTable.insertIntoParrticipantionTable(beanSurveyModule.getSurveyID(), user_id_extra);
 
             RequestDispatcher view = request.getRequestDispatcher("survey_result_primary.jsp");
             view.forward(request, response);
@@ -245,8 +245,8 @@ public class RunningSurvey extends HttpServlet {
             Logger.getLogger(RunningSurvey.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void redirectToRunningSurvey(long surveyId, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
+    public void redirectToRunningSurvey(long surveyId, HttpServletRequest request, HttpServletResponse response) throws ServletException {
         surveyTable = new SurveyTable();
         questionsTable = new QuestionsTable();
         optionTable = new OptionsTable();
@@ -279,6 +279,57 @@ public class RunningSurvey extends HttpServlet {
             Logger.getLogger(RunningSurvey.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(HomepageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void fromDashboard(BeanSurveyModule bean, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
+        try {
+            beanSurveyModule = bean;
+            //new
+            surveyTable = new SurveyTable();
+            questionsTable = new QuestionsTable();
+            optionTable = new OptionsTable();
+            //Get survey details
+            beanSurveyModule = surveyTable.selectSurveyById(beanSurveyModule.getSurveyID());
+            //Get all question of that survey
+            List<BeanQuestionModule> allQuestionOfSurvey = questionsTable.selectAllQuestionsById(beanSurveyModule.getSurveyID());
+
+            //Select all options of each question
+            List<BeanQuestionModule> questionModules = new ArrayList<>();
+            for (BeanQuestionModule eachQsn : allQuestionOfSurvey) {
+                BeanQuestionModule question = optionTable.selectAllOptionsByQuestion(eachQsn);
+                questionModules.add(question);
+            }
+            beanSurveyModule.setQuestionModules(questionModules);
+            System.out.println(allQuestionOfSurvey.size());
+
+            //beanSurveyModule.
+            //request.setAttribute("beanSurveyModule", beanSurveyModule);
+            //request.setAttribute("beanSurveyModule", beanSurveyModule);
+            //request.getRequestDispatcher("running_survey.jsp").forward(request, response);
+            request.setAttribute("beanSurveyModule", beanSurveyModule);
+            request.setAttribute("numberOfQuestion", "this is size");
+            //new
+
+            //Get options
+            userSelectionOptionTable = new UserSelectionOptionTable();
+            userSelectionOptionTable.selectNumberOfUserBySurvey(beanSurveyModule);
+            int numberOfUser = userSelectionOptionTable.selectNumberOfUserOfSurveyId(beanSurveyModule.getSurveyID());
+            //--get options
+            request.setAttribute("beanSurveyModule", beanSurveyModule);
+            request.setAttribute("numberOfUser", numberOfUser);
+
+            HttpSession ses = request.getSession(false);
+            user = (User) ses.getAttribute("user");
+
+            UserTable usertable = new UserTable();
+            user_id_extra = usertable.findUserID(user.getUsername());
+
+            RequestDispatcher view = request.getRequestDispatcher("survey_result_primary.jsp");
+            view.forward(request, response);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(RunningSurvey.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -153,10 +153,10 @@ public class UserTable {
                     SecureRandom random = new SecureRandom();
                     String auto_id = new BigInteger(130, random).toString(32);
                     URL url = new URL(request.getRequestURL().toString());
-                    String link = "http://" + url.getAuthority() + "/apollo.10/SurveyWebProgramming/recovery?email="+email_address+"&id="+auto_id+"";
+                    String link = "http://" + url.getAuthority() + "/SurveyWebProgramming/recovery?email="+email_address+"&id="+auto_id+"";
                     
                     String body = "Click the link below to reset your passwrod.."
-                            + "<form method=\"post\" action=\"https://weave.cs.nmt.edu/apollo.10/SurveyWebProgramming/recovery\">"
+                            + "<form method=\"post\" action=\"recovery\">"
                             + "<input type=\"text\" name=\"email\" value="+email_address+" hidden>"
                             + "<input type=\"text\" name=\"id\" value="+auto_id+" hidden>"
                             + "<input type=\"submit\" value=\"Click Here\">"

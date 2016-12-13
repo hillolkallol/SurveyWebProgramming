@@ -52,7 +52,7 @@
                         + "VALUES ('" + firstName + "', '" + lastName + "', '" + userName + "','" + email + "','" + pass + "','" + gender + "','" + myBirthDate + "','" + sate + "')";
                 st.execute(sql);
                 session.invalidate();
-                response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+                response.sendRedirect("login");
                 
 
             } catch (SQLException se) {

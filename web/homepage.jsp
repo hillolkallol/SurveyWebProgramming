@@ -84,13 +84,13 @@
 
                         <section class="section_item">
                             <form action="homepage" method="post">
-                                <input type="text" name="hidden_action" value="second_hot" hidden>
+                                <input type="text" name="hidden_action" value="first_hot" hidden>
                                 <div class="section_item_table">
                                     <div class="section_item_part1">
                                         <img class="circular_image" src="img/logo.jpg" alt="logo">
                                     </div>
                                     <div class="section_item_part2">
-                                        <input type="hidden" value="<%= rs.getString(1)%>" name = "second_hot_id">
+                                        <input type="hidden" value="<%= rs.getString(1)%>" name = "first_hot_id">
                                         <h1><input type="submit" class="link-button" name="second_hot" value="<%= rs.getString(2)%>"> </h1>
 
                                         <p><%= rs.getString(3)%></p>
@@ -107,13 +107,13 @@
 
                         <section class="section_item">
                             <form action="homepage" method="post">
-                                <input type="text" name="hidden_action" value="second_hot" hidden>
+                                <input type="text" name="hidden_action" value="first_hot" hidden>
                                 <div class="section_item_table">
                                     <div class="section_item_part1">
                                         <img class="circular_image" src="img/logo.jpg" alt="logo">
                                     </div>
                                     <div class="section_item_part2">
-                                        <input type="hidden" value="<%= rs.getString(1)%>" name = "second_hot_id">
+                                        <input type="hidden" value="<%= rs.getString(1)%>" name = "first_hot_id">
                                         <h1><input type="submit" class="link-button" name="second_hot" value="<%= rs.getString(2)%>"> </h1>
 
                                         <p><%= rs.getString(3)%></p>

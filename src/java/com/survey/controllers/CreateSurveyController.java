@@ -86,7 +86,7 @@ public class CreateSurveyController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CreateSurveyController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        response.sendRedirect("/apollo.10/SurveyWebProgramming/dashboard");
+        response.sendRedirect("dashboard");
 
     }
 

@@ -31,43 +31,56 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "DashboardController", urlPatterns = {"/dashboard"})
 public class DashboardController extends HttpServlet {
 
+    List<BeanSurveyModule> beanSurveyModuleModel;
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        BeanSurveyModule sendBean = new BeanSurveyModule();
+        int counter = 0;
+        if(request.getParameter("counter") != null)
+            counter = Integer.parseInt(request.getParameter("counter"));
+        sendBean = beanSurveyModuleModel.get(counter);
+
+        RunningSurvey runningSurvey = new RunningSurvey();
+        runningSurvey.fromDashboard(sendBean, request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession ses = request.getSession(false);
-        
+
         //JOptionPane.showMessageDialog(null, ses.getAttribute("user"));
 //        UserTable usertable = new UserTable();
 //        User userDetails = new User();
         User u = (User) ses.getAttribute("user");
 //        userDetails = usertable.userInfo(u.getUsername());
 //        request.setAttribute("userDetails", userDetails);
-        
-        if(ses != null){
+
+        if (ses != null) {
             createdByMe(u, request, response);
             participatedByMe(u, request, response);
-            
+
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-        }
-        else {
-            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+        } else {
+            response.sendRedirect("login");
         }
     }
-    
+
     public Timestamp getCurrentTimeStamp() {
-    SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-    Date now = new Date();
-    Timestamp strDate = Timestamp.valueOf(sdfDate.format(now));
-    return strDate;
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        Date now = new Date();
+        Timestamp strDate = Timestamp.valueOf(sdfDate.format(now));
+        return strDate;
     }
 
     private List<String> statusButton(List<BeanSurveyModule> beanSurveyModuleModel) {
         List<String> status = new ArrayList<>();
-        for(int i=0; i<beanSurveyModuleModel.size(); i++){
-            if(beanSurveyModuleModel.get(i).getPublishedTime().before(getCurrentTimeStamp())){
+        for (int i = 0; i < beanSurveyModuleModel.size(); i++) {
+            if (beanSurveyModuleModel.get(i).getPublishedTime().before(getCurrentTimeStamp())) {
                 status.add("Unpublish");
-            }
-            else{
+            } else {
                 status.add("publish Now");
             }
         }
@@ -75,7 +88,7 @@ public class DashboardController extends HttpServlet {
     }
 
     private void createdByMe(User u, HttpServletRequest request, HttpServletResponse response) {
-        List <BeanSurveyModule> beanSurveyModuleModel = new ArrayList<>();
+        beanSurveyModuleModel = new ArrayList<>();
         SurveyTable surveyTable = new SurveyTable();
         ParticipationTable participationTable = new ParticipationTable();
         beanSurveyModuleModel = surveyTable.selectFromSurveyTable(u.getUsername());
@@ -85,15 +98,15 @@ public class DashboardController extends HttpServlet {
     }
 
     private void participatedByMe(User u, HttpServletRequest request, HttpServletResponse response) {
-        List <BeanSurveyModule> beanSurveyModuleModelP = new ArrayList<>();
+        beanSurveyModuleModel = new ArrayList<>();
         SurveyTable surveyTableP = new SurveyTable();
         ParticipationTable participationTableP = new ParticipationTable();
         UserTable userTable = new UserTable();
-        List <Integer> allSurveyID = new ArrayList<>();
+        List<Integer> allSurveyID = new ArrayList<>();
         allSurveyID = participationTableP.allSurveyID(userTable.findUserID(u.getUsername()));
-        beanSurveyModuleModelP = surveyTableP.surveyDetailsParticipatedByMe(allSurveyID);
-        request.setAttribute("beanSurveyModuleModelParticipatedByMe", beanSurveyModuleModelP);
-        request.setAttribute("participentParticipatedByMe", participationTableP.totalParticipent(beanSurveyModuleModelP));
+        beanSurveyModuleModel = surveyTableP.surveyDetailsParticipatedByMe(allSurveyID);
+        request.setAttribute("beanSurveyModuleModelParticipatedByMe", beanSurveyModuleModel);
+        request.setAttribute("participentParticipatedByMe", participationTableP.totalParticipent(beanSurveyModuleModel));
 
     }
 }

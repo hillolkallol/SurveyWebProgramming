@@ -8,7 +8,7 @@
 <%
     HttpSession sess = request.getSession(false);
     if (sess.getAttribute("user") == null) {
-        response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+        response.sendRedirect("login");
     }
 %>
 <!DOCTYPE html>

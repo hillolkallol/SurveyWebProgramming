@@ -33,7 +33,7 @@ public class LoginController extends HttpServlet {
             if(ses.getAttribute("user") != null){
                 //out.println("not null");
                 //request.getRequestDispatcher(page).forward(request, response);
-                response.sendRedirect("/apollo.10/SurveyWebProgramming/homepage");
+                response.sendRedirect("homepage");
             }
             else {
                 //out.println("null");

@@ -39,13 +39,13 @@ public class RecoveredController extends HttpServlet {
             String s = "";
             s = usertable.resetPassword(userDetails);
             request.setAttribute("update_message", s);
-            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+            response.sendRedirect("login");
             //request.getRequestDispatcher("recovery.jsp").forward(request, response);
             //doGet(request, response);
         }
         else {
             request.setAttribute("update_message", "Old Password doesn't match!");
-            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+            response.sendRedirect("login");
             //request.getRequestDispatcher("recovery.jsp").forward(request, response);
             //doGet(request, response);
         }

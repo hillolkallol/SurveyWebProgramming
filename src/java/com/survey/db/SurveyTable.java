@@ -6,7 +6,6 @@
 package com.survey.db;
 
 import com.survey.models.BeanSurveyModule;
-import com.survey.models.BeanSurveyModuleList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

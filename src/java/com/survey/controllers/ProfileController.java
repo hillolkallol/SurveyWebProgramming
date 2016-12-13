@@ -39,7 +39,7 @@ public class ProfileController extends HttpServlet {
             request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
         else {
-            response.sendRedirect("/apollo.10/SurveyWebProgramming/login");
+            response.sendRedirect("login");
         }
     }
     

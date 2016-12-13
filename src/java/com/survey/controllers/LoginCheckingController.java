@@ -41,7 +41,7 @@ public class LoginCheckingController extends HttpServlet {
             request.setAttribute("user", user);
             HttpSession session =request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("/apollo.10/SurveyWebProgramming/homepage");
+            response.sendRedirect("homepage");
         }
         else {
             request.setAttribute("login_error_msg", "Invalid Username/Password");
